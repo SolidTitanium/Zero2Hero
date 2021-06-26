@@ -74,7 +74,37 @@ class RomanNumeralsClass:
                     for i in range(dig1):
                         romout += "I"
                 except Exception:
-                    pass      
+                    pass
+        #Generalized secuence for writing chars in romout
+        #n refers to the magnitude of the char, first and second indicates
+        #if is the 1*10^n char or 5*10^n char
+        #the first and second 1 chars are "I" and "V"
+        #the first and second 2 chars are "X" and "L"
+        #the first and second 3 chars are "C" and "D"
+        # theres only one 4 char "M"
+        """
+        #Gen bit
+        if dign >= 5:
+            if dign % 5 == 4:
+                romout += "firstnchar"+"firstn+1char"
+            else:
+                romout += "secondnchar"
+                try:
+                    for i in range(dign % 5):
+                        romout += "firstnchar"
+                except Exception:
+                    pass
+        else:
+            if dign == 4:
+                romout += "firstnchar"+"secondnchar"
+                else:
+                    try:
+                        for i in range(dign):
+                            romout += "firstnchar"
+                    except Exception:
+                        pass
+        """
+
         return romout
     
     @staticmethod
