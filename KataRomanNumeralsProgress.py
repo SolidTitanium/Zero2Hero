@@ -1,29 +1,44 @@
 import math as m
 
-class RomanNumeralsClass:
+class RNC:
     
-    Numerals = {"I":1, "V":5, "X":10, "L":50, "C":100, "D":500, "M":1000}
+    Numerals = ("I", "V", "X", "L", "C", "D", "M")
+    
+    #Index provider function
+    @staticmethod
+    def symbolfinder(order, ind):
+        index = (order - 1) * 2 + ind - 1
+        return RNC.Numerals[index]
+    
     @staticmethod
     def to_roman(decin):
-        #Initialization
+        
+        #Initialization (potential for list comprehension?)
+        #YES dig = [int(m.floor(decin/(10**n)) % 10) for n in range(3,-1,-1)]
+        #left it this way for...comprehension purposes... (plus the none at the start is important, thought not crucial)
         romout = ""
         dig4 = int(m.floor(decin/1000))
         dig3 = int(m.floor(decin/100) % 10)
         dig2 = int(m.floor(decin/10) % 10)
         dig1 = int(decin % 10)
+        dig = [None, dig1, dig2, dig3, dig4]
+        
+        #Obsolete code, first iteration, left for reference
+        """
         #M bit
         if dig4 >= 1:
             for i in range(dig4):
                 romout += "M"
+                
         #CD bit
         if dig3 >= 5:
             if dig3 % 5 == 4:
                 romout += "CM"
             else:
+                romout += "D"
                 try:
                     for i in range(dig3 % 5):
-                        temp3 += "C"
-                    romout += "D" + temp3
+                        romout += "C"
                 except Exception:
                     pass
         else: 
@@ -40,10 +55,10 @@ class RomanNumeralsClass:
             if dig2 % 5 == 4:
                 romout += "XC"
             else:
+                romout += "L"
                 try:
                     for i in range(dig2 % 5):
-                        temp2 += "X"
-                    romout += "L" + temp2
+                        romout += "X"
                 except Exception:
                     pass
         else: 
@@ -55,15 +70,16 @@ class RomanNumeralsClass:
                         romout += "X"
                 except Exception:
                     pass
+                
         #IV bit
         if dig1 >= 5:
             if dig1 % 5 == 4:
                 romout += "IX"
             else:
+                romout += "V"
                 try:
                     for i in range(dig1 % 5):
-                        temp1 += "I"
-                    romout += "V" + temp1
+                        romout += "I"
                 except Exception:
                     pass
         else: 
@@ -75,39 +91,55 @@ class RomanNumeralsClass:
                         romout += "I"
                 except Exception:
                     pass
-        #Generalized secuence for writing chars in romout
-        #n refers to the magnitude of the char, first and second indicates
-        #if is the 1*10^n char or 5*10^n char
-        #the first and second 1 chars are "I" and "V"
-        #the first and second 2 chars are "X" and "L"
-        #the first and second 3 chars are "C" and "D"
-        # theres only one 4 char "M"
         """
-        #Gen bit
-        if dign >= 5:
-            if dign % 5 == 4:
-                romout += "firstnchar"+"firstn+1char"
+        
+        #Basically a simplification of the above code.
+        #The iterator mess is about counting how many digits the input has
+        #but due to how the code works it only needs to know the amount
+        #if there are less than 4
+        for n in range(min(4,m.floor(m.log10(decin)+1)),0,-1):
+            if n == 4:
+                for i in range(dig[n]):
+                    romout += RNC.symbolfinder(n, 1)
             else:
-                romout += "secondnchar"
-                try:
-                    for i in range(dign % 5):
-                        romout += "firstnchar"
-                except Exception:
-                    pass
-        else:
-            if dign == 4:
-                romout += "firstnchar"+"secondnchar"
+                if dig[n] >= 5:
+                    if dig[n] % 5 == 4:
+                        romout += RNC.symbolfinder(n,1) + RNC.symbolfinder(n+1,1)
+                    else:
+                        romout += RNC.symbolfinder(n,2)
+                        try:
+                            for i in range(dig[n] % 5):
+                                romout += RNC.symbolfinder(n,1)
+                        except Exception:
+                            pass
                 else:
-                    try:
-                        for i in range(dign):
-                            romout += "firstnchar"
-                    except Exception:
-                        pass
-        """
-
+                    if dig[n] == 4:
+                        romout += RNC.symbolfinder(n,1) + RNC.symbolfinder(n,2)
+                    else:
+                        try:
+                            for i in range(dig[n]):
+                                romout += RNC.symbolfinder(n,1)
+                        except Exception:
+                            pass
+                        
+        #return statement
         return romout
     
     @staticmethod
     def from_roman(romin):
-        pass
-RomanNumerals = RomanNumeralsClass()
+        
+        #heh
+        """
+        count = 1
+        while True:
+            if romin == RNC.to_roman(count):
+                return count
+            else:
+                count += 1
+        """
+        
+        #Sight and foresight aproach
+        #If sight < foresight substract foresight-sight, add to decout and skip a step
+        #else add sight to decout and continue normally
+    
+RomanNumerals = RNC()
