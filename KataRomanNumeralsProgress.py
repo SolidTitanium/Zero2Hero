@@ -23,77 +23,6 @@ class RNC:
         dig1 = int(decin % 10)
         dig = [None, dig1, dig2, dig3, dig4]
         
-        #Obsolete code, first iteration, left for reference
-        """
-        #M bit
-        if dig4 >= 1:
-            for i in range(dig4):
-                romout += "M"
-                
-        #CD bit
-        if dig3 >= 5:
-            if dig3 % 5 == 4:
-                romout += "CM"
-            else:
-                romout += "D"
-                try:
-                    for i in range(dig3 % 5):
-                        romout += "C"
-                except Exception:
-                    pass
-        else: 
-            if dig3 == 4:
-                romout += "CD"
-            else:
-                try:
-                    for i in range(dig3):
-                        romout += "C"
-                except Exception:
-                    pass
-        #XL bit
-        if dig2 >= 5:
-            if dig2 % 5 == 4:
-                romout += "XC"
-            else:
-                romout += "L"
-                try:
-                    for i in range(dig2 % 5):
-                        romout += "X"
-                except Exception:
-                    pass
-        else: 
-            if dig2 == 4:
-                romout += "XL"
-            else:
-                try:
-                    for i in range(dig2):
-                        romout += "X"
-                except Exception:
-                    pass
-                
-        #IV bit
-        if dig1 >= 5:
-            if dig1 % 5 == 4:
-                romout += "IX"
-            else:
-                romout += "V"
-                try:
-                    for i in range(dig1 % 5):
-                        romout += "I"
-                except Exception:
-                    pass
-        else: 
-            if dig1 == 4:
-                romout += "IV"
-            else:
-                try:
-                    for i in range(dig1):
-                        romout += "I"
-                except Exception:
-                    pass
-        """
-        
-        #Basically a simplification of the above code.
         #The iterator mess is about counting how many digits the input has
         #but due to how the code works it only needs to know the amount
         #if there are less than 4
@@ -122,24 +51,30 @@ class RNC:
                         except Exception:
                             pass
                         
-        #return statement
         return romout
     
     @staticmethod
     def from_roman(romin):
         
-        #heh
-        """
-        count = 1
-        while True:
-            if romin == RNC.to_roman(count):
-                return count
-            else:
-                count += 1
-        """
+        #Initialization
+        key = {"I":1, "V":5, "X":10, "L":50, "C":100, "D":500, "M":1000}
+        rominl = list(romin)
+        rominc = rominl.copy()
+        rominc.pop(0)
+        rominc.append("I")
+        myiter = zip(rominl, rominc)
+        decout = 0
         
-        #Sight and foresight aproach
-        #If sight < foresight substract foresight-sight, add to decout and skip a step
-        #else add sight to decout and continue normally
+        #sight and foresight aproach
+        #if sight < foresight add foresight - sight and skip a step
+        #else add sight
+        for i, j in myiter:
+            if key[i] < key[j]:
+                decout += key[j] - key[i]
+                next(myiter)
+            else:
+                decout += key[i]
+                
+        return decout
     
 RomanNumerals = RNC()
