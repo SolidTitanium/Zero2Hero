@@ -30,3 +30,7 @@ def wordmapper(word):
 def pig_it(text):
     textl = text.split()
     return " ".join(list(map(wordmapper, textl)))
+
+if __name__ == "__main__":
+    mystr = "Hello Pig World !"
+    pig_it(mystr)
