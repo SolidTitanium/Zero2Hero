@@ -5,14 +5,13 @@ def DataPerLine(mystr):
     return (rangedata, keydata, mystr[anchor[0] + 4:])
 
 def Validator(args):
-    rangedata = args[0]
-    keydata = args[1]
-    mystr = args[2]
-    condition1 = mystr[rangedata[0] - 1] == keydata
-    condition2 = mystr[rangedata[1] - 1] == keydata
-    return sum((condition1, condition2)) == 1
+    counter = args[2].count(args[1])
+    if counter <= args[0][1] and counter >= args[0][0]:
+        return True
+    else:
+        return False
 
-with open("AdventOfCode2020\AOC2020Input\AOC2020D2Input.txt", "r") as f:
+with open("AdventOfCode2020\AOC2020Input\AOC2020In1-5\AOC2020D2Input.txt", "r") as f:
     InputList = f.readlines()
 
 ParsedInputList = list(map(lambda x: x.strip(), InputList))

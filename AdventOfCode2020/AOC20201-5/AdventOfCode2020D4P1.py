@@ -14,7 +14,7 @@ def Validator(mystr):
             checklist.append(False)
     return checklist
 
-with open("AdventOfCode2020\AOC2020Input\AOC2020D4Input.txt", "r") as f:
+with open("AdventOfCode2020\AOC2020Input\AOC2020In1-5\AOC2020D4Input.txt", "r") as f:
     InputList = f.readlines()
 
 passport = ""

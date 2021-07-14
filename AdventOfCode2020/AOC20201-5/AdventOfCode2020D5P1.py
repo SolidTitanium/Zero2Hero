@@ -22,17 +22,12 @@ def Hasher(seattuple):
     return seattuple[0] * 8 + seattuple[1]
 
 #Standard input reading.
-with open("AdventOfCode2020\AOC2020Input\AOC2020D5Input.txt", "r") as f:
+with open("AdventOfCode2020\AOC2020Input\AOC2020In1-5\AOC2020D5Input.txt", "r") as f:
     InputList = f.readlines()
 ParsedInputList = list(map(lambda x: x.strip(), InputList))
 
 #Driver code
 DecodedInputList = list(map(Decoder, ParsedInputList))
-HashedInputList = list(map(Hasher, DecodedInputList))
-NiceHashedInputList = sorted(HashedInputList)
-for i in enumerate(NiceHashedInputList):
-    if i[1] != i[0] + 13:
-        Sol = i[1] - 1
-        break
+Sol = Hasher(max(DecodedInputList, key = Hasher))
 
 print(Sol)

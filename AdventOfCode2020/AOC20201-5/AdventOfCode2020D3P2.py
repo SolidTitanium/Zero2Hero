@@ -22,7 +22,7 @@ def ProductTreeCounter(forest, *ratios):
         carry = carry * i
     return carry
 
-with open("AdventOfCode2020\AOC2020Input\AOC2020D3Input.txt", "r") as f:
+with open("AdventOfCode2020\AOC2020Input\AOC2020In1-5\AOC2020D3Input.txt", "r") as f:
     InputList = f.readlines()
 
 ParsedInputList = list(map(lambda x: x.strip(), InputList))
